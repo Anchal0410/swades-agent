@@ -289,7 +289,12 @@ export const App: React.FC = () => {
               <span className="typing-dot" />
               <span className="typing-dot" />
               <span className="typing-dot" />
-              <span className="typing-text">Agent is typing…</span>
+              <span className="typing-text">
+                {["Thinking", "Searching", "Analyzing", "Routing to specialist"][
+                  Math.floor((Date.now() / 1000) % 4)
+                ]}
+                …
+              </span>
             </div>
           )}
         </section>

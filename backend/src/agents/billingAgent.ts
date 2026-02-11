@@ -16,7 +16,10 @@ const extractInvoiceNumber = (text: string): string | null => {
 };
 
 const buildBillingPrompt = (ctx: AgentContext, history: Message[], invoiceSummary: string | null) => {
-  const historyText = history
+  const MAX_HISTORY_MESSAGES = 12;
+  const trimmedHistory = history.length > MAX_HISTORY_MESSAGES ? history.slice(-MAX_HISTORY_MESSAGES) : history;
+
+  const historyText = trimmedHistory
     .map((m) => `${m.role === "USER" ? "User" : "Agent"}: ${m.content}`)
     .join("\n");
 

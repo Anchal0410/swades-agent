@@ -10,7 +10,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:seed": "node dist/prisma/seed.js",
-    "lint": "echo \"no linter configured\""
+    "lint": "echo \"no linter configured\"",
+    "test": "npm run build && node --test tests/**/*.test.cjs"
   },
   "keywords": [],
   "author": "",

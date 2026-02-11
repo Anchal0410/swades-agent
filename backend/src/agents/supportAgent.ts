@@ -10,7 +10,11 @@ export interface AgentContext {
 }
 
 const buildSupportPrompt = (ctx: AgentContext, history: Message[]) => {
-  const historyText = history
+  // Simple context compaction: keep only the most recent N messages
+  const MAX_HISTORY_MESSAGES = 12;
+  const trimmedHistory = history.length > MAX_HISTORY_MESSAGES ? history.slice(-MAX_HISTORY_MESSAGES) : history;
+
+  const historyText = trimmedHistory
     .map((m) => `${m.role === "USER" ? "User" : "Agent"}: ${m.content}`)
     .join("\n");
 

@@ -8,12 +8,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "resolveJsonModule": true
   },
   "include": [
     "src",
-    "prisma"
+    "prisma",
+    "tests",
+    "prisma.config.ts"
   ],
   "exclude": [
     "node_modules",
