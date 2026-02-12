@@ -15,9 +15,16 @@ const extractInvoiceNumber = (text: string): string | null => {
   return match ? `INV-${match[1]}` : null;
 };
 
-const buildBillingPrompt = (ctx: AgentContext, history: Message[], invoiceSummary: string | null) => {
+const buildBillingPrompt = (
+  ctx: AgentContext,
+  history: Message[],
+  invoiceSummary: string | null,
+) => {
   const MAX_HISTORY_MESSAGES = 12;
-  const trimmedHistory = history.length > MAX_HISTORY_MESSAGES ? history.slice(-MAX_HISTORY_MESSAGES) : history;
+  const trimmedHistory =
+    history.length > MAX_HISTORY_MESSAGES
+      ? history.slice(-MAX_HISTORY_MESSAGES)
+      : history;
 
   const historyText = trimmedHistory
     .map((m) => `${m.role === "USER" ? "User" : "Agent"}: ${m.content}`)
@@ -40,16 +47,31 @@ Respond with clear, friendly billing-related support. If you don't find an invoi
 
 export const billingAgent = {
   async streamResponse(ctx: AgentContext) {
-    const fullHistory = await conversationService.getConversationHistory(ctx.conversationId);
+    const fullHistory = await conversationService.getConversationHistory(
+      ctx.conversationId,
+    );
 
     let invoiceSummary: string | null = null;
 
     const invoiceNumber = extractInvoiceNumber(ctx.message);
-    const invoices =
-      (invoiceNumber && [(await billingService.findInvoiceByNumber(invoiceNumber))].filter(Boolean)) ||
-      (await billingService.listInvoicesForUser(ctx.userId));
 
-    if (invoices && invoices.length > 0) {
+    let invoices: NonNullable<
+      Awaited<ReturnType<typeof billingService.findInvoiceByNumber>>
+    >[] = [];
+
+    if (invoiceNumber) {
+      const invoice = await billingService.findInvoiceByNumber(invoiceNumber);
+      if (invoice) {
+        invoices = [invoice];
+      }
+    } else if (ctx.userId) {
+      const userInvoices = await billingService.listInvoicesForUser(ctx.userId);
+      invoices = userInvoices.filter(
+        (inv: any): inv is NonNullable<typeof inv> => inv != null,
+      );
+    }
+
+    if (invoices.length > 0) {
       invoiceSummary = invoices
         .map(
           (inv) =>
@@ -84,4 +106,3 @@ export const billingAgent = {
     return stream;
   },
 };
-

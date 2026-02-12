@@ -33,8 +33,7 @@ serve(
     fetch: app.fetch,
     port,
   },
-  (info) => {
+  (info: { port: number }) => {
     console.log(`🚀 Hono server running on http://localhost:${info.port}`);
   },
 );
-

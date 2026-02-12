@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "build": "npm run prisma:generate && tsc",
     "start": "node dist/server.js",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
@@ -18,18 +18,18 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@prisma/adapter-pg": "^7.3.0",
     "@hono/node-server": "^1.19.9",
     "@huggingface/inference": "^4.13.11",
+    "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "ai": "^6.0.78",
     "dotenv": "^17.2.4",
     "hono": "^4.11.9",
-    "zod": "^4.3.6",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/node": "^25.2.2",
+    "@types/node": "^25.2.3",
     "prisma": "^7.3.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
