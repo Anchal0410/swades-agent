@@ -24,7 +24,8 @@ interface AgentInfo {
   capabilities: string[];
 }
 
-const API_BASE = "/api";
+// In production (Vercel), set VITE_API_URL to backend root (e.g. https://swades-agent.onrender.com/api)
+const API_BASE = import.meta.env.VITE_API_URL ?? "/api";
 
 export const App: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
