@@ -12,7 +12,7 @@ This project is a fullstack assessment implementation of an AI-powered customer 
 1. **Terminal 1 – backend:** From project root run `cd backend && npm run dev`. The API runs at **http://localhost:4000**.
 2. **Terminal 2 – frontend:** Run `cd frontend && npm run dev`. The app runs at **http://localhost:5173** and proxies `/api` to the backend.
 
-Open http://localhost:5173, start a conversation, and try e.g. “Where is my order TRK123456?” or “Invoice INV-1001?”.
+Open http://localhost:5173, start a conversation, and try messages that match the seed data (see **Testing** below).
 
 **If the backend fails with “address already in use :::4000”:** Another process is using port 4000. Stop it or use another port (set `PORT=4001` in `backend/.env` and restart). On Windows: `netstat -ano | findstr :4000` then `taskkill /PID <pid> /F`. On macOS/Linux: `lsof -i :4000` then `kill <pid>`.
 
